@@ -7,19 +7,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
         <TextView
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/mobile"
-            android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/mobile"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
             android:text="@string/app_name"
+            android:textSize="20sp"
             android:textColor="#000"/>
     </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,7 +32,7 @@
         <RelativeLayout
             android:id="@+id/rl_username"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="54dp"
             android:layout_marginLeft="28dp"
             android:layout_marginRight="28dp"
             android:background="#fff" >
@@ -128,5 +131,12 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </RelativeLayout>
-
+    <TextView
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置服务器的ip地址"
+        android:textSize="20sp"
+        android:textColor="#000"/>
 </LinearLayout>
