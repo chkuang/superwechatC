@@ -180,6 +180,8 @@
                 android:hint="请选择头像"
                 android:paddingLeft="10dip"
                 android:singleLine="true"
+                android:clickable="false"
+                android:enabled="false"
                 android:textSize="18sp" />
         </RelativeLayout>
 
