@@ -58,7 +58,7 @@ public interface I {
 		String IS_SEARCHED 							= 		"m_location_is_searched";		//是否可以被搜索到
 		String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
 	}
-	String SERVER_ROOT                              =       "http://192.168.10.195:8888/SuperWeChatServer/Server";
+	String SERVER_ROOT                              =       "http://localhost:8888/SuperWeChatServer/Server";
 //	String AVATAR_PATH 								= 		"D:/test/";
 	String ISON8859_1 								= 		"iso8859-1";
 	String UTF_8 									= 		"utf-8";
@@ -81,6 +81,7 @@ public interface I {
 	String AVATAR_SUFFIX_PNG						=		".png";							//PNG图片后缀名
 	String AVATAR_SUFFIX_JPG						=		".jpg";							//JPG图片后缀名
 	String QUESTION                                  =          "?" ;
+	String EQU                                     =      "=";                             //等号
 	int LOCATION_IS_SEARCH_ALLOW					=		1;								//可以被搜索到地理位置
 	int LOCATION_IS_SEARCH_INHIBIT					=		0;								//禁止被搜索到地理位置
 	int MSG_SUCCESS						            =  		0;							    //默认成功
