@@ -237,6 +237,7 @@ public class RegisterActivity extends BaseActivity {
 					public void onSuccess(Result result) {
 						Log.e(TAG,"result="+result);
 					}
+
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"unRegister error"+error);
