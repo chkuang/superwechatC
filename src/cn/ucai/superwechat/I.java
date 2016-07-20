@@ -47,7 +47,6 @@ public interface I {
 		String AVATAR_TYPE 							= 		"m_avatar_type";				//头像类型：\n0:用户头像\n1:群组头像
 		String UPDATE_TIME 							= 		"m_avatar_last_update_time";	//最后更新时间
 	}
-	
 	interface Location {
 		String TABLE_NAME 							= 		"t_superwechat_location";
 		String LOCATION_ID 							= 		"m_location_id";				//主键
@@ -57,7 +56,7 @@ public interface I {
 		String IS_SEARCHED 							= 		"m_location_is_searched";		//是否可以被搜索到
 		String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
 	}
-
+	String SERVER_ROOT                              =       "http://192.168.10.195:8888/SuperWeChatServer/Server";
 //	String AVATAR_PATH 								= 		"D:/test/";
 	String ISON8859_1 								= 		"iso8859-1";
 	String UTF_8 									= 		"utf-8";
