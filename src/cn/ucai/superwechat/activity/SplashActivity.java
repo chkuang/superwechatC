@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.AlphaAnimation;
@@ -26,6 +27,7 @@ import cn.ucai.superwechat.task.DownloadContactListTask;
  *
  */
 public class SplashActivity extends BaseActivity {
+	private static final String TAG = SplashActivity.class.getSimpleName();
 	private RelativeLayout rootLayout;
 	private TextView versionText;
 	
@@ -66,6 +68,7 @@ public class SplashActivity extends BaseActivity {
 					Log.e("main","user="+user);
 					SuperWeChatApplication.getInstance().setUser(user);
 					SuperWeChatApplication.currentUserNick = user.getMUserNick();
+					Log.e(TAG,"user.getMUserNick="+user.getMUserNick());
 					new DownloadContactListTask(SplashActivity.this,username).execute();
 
 					long costTime = System.currentTimeMillis() - start;

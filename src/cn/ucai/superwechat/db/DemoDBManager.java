@@ -10,8 +10,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
 import cn.ucai.superwechat.Constant;
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.domain.InviteMessage;
 import cn.ucai.superwechat.domain.RobotUser;
@@ -19,20 +21,21 @@ import cn.ucai.superwechat.domain.User;
 import com.easemob.util.HanziToPinyin;
 
 public class DemoDBManager {
+    private static final String TAG = DemoDBManager.class.getSimpleName();
     static private DemoDBManager dbMgr = new DemoDBManager();
     private DbOpenHelper dbHelper;
-    
+
     void onInit(Context context){
         dbHelper = DbOpenHelper.getInstance(context);
     }
-    
+
     public static synchronized DemoDBManager getInstance(){
         return dbMgr;
     }
-    
+
     /**
      * 保存好友list
-     * 
+     *
      * @param contactList
      */
     synchronized public void saveContactList(List<User> contactList) {
@@ -53,7 +56,7 @@ public class DemoDBManager {
 
     /**
      * 获取好友list
-     * 
+     *
      * @return
      */
     synchronized public Map<String, User> getContactList() {
@@ -75,7 +78,7 @@ public class DemoDBManager {
                 } else {
                     headerName = user.getUsername();
                 }
-                
+
                 if (username.equals(Constant.NEW_FRIENDS_USERNAME) || username.equals(Constant.GROUP_USERNAME)
                         || username.equals(Constant.CHAT_ROOM)|| username.equals(Constant.CHAT_ROBOT)) {
                     user.setHeader("");
@@ -95,7 +98,7 @@ public class DemoDBManager {
         }
         return users;
     }
-    
+
     /**
      * 删除一个联系人
      * @param username
@@ -106,7 +109,7 @@ public class DemoDBManager {
             db.delete(UserDao.TABLE_NAME, UserDao.COLUMN_NAME_ID + " = ?", new String[]{username});
         }
     }
-    
+
     /**
      * 保存一个联系人
      * @param user
@@ -123,30 +126,30 @@ public class DemoDBManager {
             db.replace(UserDao.TABLE_NAME, null, values);
         }
     }
-    
+
     public void setDisabledGroups(List<String> groups){
         setList(UserDao.COLUMN_NAME_DISABLED_GROUPS, groups);
     }
-    
-    public List<String>  getDisabledGroups(){       
+
+    public List<String>  getDisabledGroups(){
         return getList(UserDao.COLUMN_NAME_DISABLED_GROUPS);
     }
-    
+
     public void setDisabledIds(List<String> ids){
         setList(UserDao.COLUMN_NAME_DISABLED_IDS, ids);
     }
-    
+
     public List<String> getDisabledIds(){
         return getList(UserDao.COLUMN_NAME_DISABLED_IDS);
     }
-    
+
     synchronized private void setList(String column, List<String> strList){
         StringBuilder strBuilder = new StringBuilder();
-        
+
         for(String hxid:strList){
             strBuilder.append(hxid).append("$");
         }
-        
+
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db.isOpen()) {
             ContentValues values = new ContentValues();
@@ -155,7 +158,7 @@ public class DemoDBManager {
             db.update(UserDao.PREF_TABLE_NAME, values, null,null);
         }
     }
-    
+
     synchronized private List<String> getList(String column){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select " + column + " from " + UserDao.PREF_TABLE_NAME,null);
@@ -168,23 +171,23 @@ public class DemoDBManager {
         if (strVal == null || strVal.equals("")) {
             return null;
         }
-        
+
         cursor.close();
-        
+
         String[] array = strVal.split("$");
-        
+
         if(array != null && array.length > 0){
             List<String> list = new ArrayList<String>();
             for(String str:array){
                 list.add(str);
             }
-            
+
             return list;
         }
-        
+
         return null;
     }
-    
+
     /**
      * 保存message
      * @param message
@@ -202,17 +205,17 @@ public class DemoDBManager {
             values.put(InviteMessgeDao.COLUMN_NAME_TIME, message.getTime());
             values.put(InviteMessgeDao.COLUMN_NAME_STATUS, message.getStatus().ordinal());
             db.insert(InviteMessgeDao.TABLE_NAME, null, values);
-            
-            Cursor cursor = db.rawQuery("select last_insert_rowid() from " + InviteMessgeDao.TABLE_NAME,null); 
+
+            Cursor cursor = db.rawQuery("select last_insert_rowid() from " + InviteMessgeDao.TABLE_NAME,null);
             if(cursor.moveToFirst()){
                 id = cursor.getInt(0);
             }
-            
+
             cursor.close();
         }
         return id;
     }
-    
+
     /**
      * 更新message
      * @param msgId
@@ -224,7 +227,7 @@ public class DemoDBManager {
             db.update(InviteMessgeDao.TABLE_NAME, values, InviteMessgeDao.COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(msgId)});
         }
     }
-    
+
     /**
      * 获取messges
      * @return
@@ -243,7 +246,7 @@ public class DemoDBManager {
                 String reason = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_REASON));
                 long time = cursor.getLong(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_TIME));
                 int status = cursor.getInt(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_STATUS));
-                
+
                 msg.setId(id);
                 msg.setFrom(from);
                 msg.setGroupId(groupid);
@@ -269,101 +272,99 @@ public class DemoDBManager {
         }
         return msgs;
     }
-    
+
     synchronized public void deleteMessage(String from){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if(db.isOpen()){
             db.delete(InviteMessgeDao.TABLE_NAME, InviteMessgeDao.COLUMN_NAME_FROM + " = ?", new String[]{from});
         }
     }
-    
+
     synchronized public void closeDB(){
         if(dbHelper != null){
             dbHelper.closeDB();
         }
     }
-    
-    
+
+
     /**
      * Save Robot list
      */
-	synchronized public void saveRobotList(List<RobotUser> robotList) {
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		if (db.isOpen()) {
-			db.delete(UserDao.ROBOT_TABLE_NAME, null, null);
-			for (RobotUser item : robotList) {
-				ContentValues values = new ContentValues();
-				values.put(UserDao.ROBOT_COLUMN_NAME_ID, item.getUsername());
-				if (item.getNick() != null)
-					values.put(UserDao.ROBOT_COLUMN_NAME_NICK, item.getNick());
-				if (item.getAvatar() != null)
-					values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, item.getAvatar());
-				db.replace(UserDao.ROBOT_TABLE_NAME, null, values);
-			}
-		}
-	}
-    
+    synchronized public void saveRobotList(List<RobotUser> robotList) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            db.delete(UserDao.ROBOT_TABLE_NAME, null, null);
+            for (RobotUser item : robotList) {
+                ContentValues values = new ContentValues();
+                values.put(UserDao.ROBOT_COLUMN_NAME_ID, item.getUsername());
+                if (item.getNick() != null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_NICK, item.getNick());
+                if (item.getAvatar() != null)
+                    values.put(UserDao.ROBOT_COLUMN_NAME_AVATAR, item.getAvatar());
+                db.replace(UserDao.ROBOT_TABLE_NAME, null, values);
+            }
+        }
+    }
+
     /**
      * load robot list
      */
-	synchronized public Map<String, RobotUser> getRobotList() {
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Map<String, RobotUser> users = null;
-		if (db.isOpen()) {
-			Cursor cursor = db.rawQuery("select * from " + UserDao.ROBOT_TABLE_NAME, null);
-			if(cursor.getCount()>0){
-				users = new HashMap<String, RobotUser>();
-			};
-			while (cursor.moveToNext()) {
-				String username = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_ID));
-				String nick = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_NICK));
-				String avatar = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_AVATAR));
-				RobotUser user = new RobotUser();
-				user.setUsername(username);
-				user.setNick(nick);
-				user.setAvatar(avatar);
-				String headerName = null;
-				if (!TextUtils.isEmpty(user.getNick())) {
-					headerName = user.getNick();
-				} else {
-					headerName = user.getUsername();
-				}
-				if(Character.isDigit(headerName.charAt(0))){
-					user.setHeader("#");
-				}else{
-					user.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1)).get(0).target
-							.substring(0, 1).toUpperCase());
-					char header = user.getHeader().toLowerCase().charAt(0);
-					if (header < 'a' || header > 'z') {
-						user.setHeader("#");
-					}
-				}
-				
-				users.put(username, user);
-			}
-			cursor.close();
-		}
-		return users;
-	}
+    synchronized public Map<String, RobotUser> getRobotList() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Map<String, RobotUser> users = null;
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + UserDao.ROBOT_TABLE_NAME, null);
+            if(cursor.getCount()>0){
+                users = new HashMap<String, RobotUser>();
+            };
+            while (cursor.moveToNext()) {
+                String username = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_ID));
+                String nick = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_NICK));
+                String avatar = cursor.getString(cursor.getColumnIndex(UserDao.ROBOT_COLUMN_NAME_AVATAR));
+                RobotUser user = new RobotUser();
+                user.setUsername(username);
+                user.setNick(nick);
+                user.setAvatar(avatar);
+                String headerName = null;
+                if (!TextUtils.isEmpty(user.getNick())) {
+                    headerName = user.getNick();
+                } else {
+                    headerName = user.getUsername();
+                }
+                if(Character.isDigit(headerName.charAt(0))){
+                    user.setHeader("#");
+                }else{
+                    user.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1)).get(0).target
+                            .substring(0, 1).toUpperCase());
+                    char header = user.getHeader().toLowerCase().charAt(0);
+                    if (header < 'a' || header > 'z') {
+                        user.setHeader("#");
+                    }
+                }
 
+                users.put(username, user);
+            }
+            cursor.close();
+        }
+        return users;
+    }
     /**
      * 保存当前登录用户
      * @param user
      */
     synchronized public void saveUserAvatar(UserAvatar user){
+        Log.e(TAG,"user="+user);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(UserDao.USER_COLUMN_NAME_ID, user.getMUserName());
+        values.put(UserDao.USER_COLUMN_NAME_ID,user.getMUserName() );
         values.put(UserDao.USER_COLUMN_NAME_NICK, user.getMUserNick());
         values.put(UserDao.USER_COLUMN_NAME_AVATAR, user.getMAvatarId());
-        values.put(UserDao.USER_COLUMN_AVATAR_PATH, user.getMAvatarPath());
         values.put(UserDao.USER_COLUMN_AVATAR_TYPE, user.getMAvatarType());
+        values.put(UserDao.USER_COLUMN_AVATAR_PATH, user.getMAvatarPath());
         values.put(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME, user.getMAvatarLastUpdateTime());
-        if(db.isOpen()){
+        if(db.isOpen()) {
             db.replace(UserDao.USER_TABLE_NAME, null, values);
         }
-
-
     }
 
 
@@ -384,5 +385,4 @@ public class DemoDBManager {
         }
         return user;
     }
-
 }
