@@ -134,7 +134,7 @@ public class UserUtils {
     /**
      * 设置当前用户昵称
      */
-    public static void setAPPCurrentUserNick(TextView textView){
+    public static void   setAPPCurrentUserNick(TextView textView){
     	UserAvatar user = SuperWeChatApplication.getInstance().getUser();
     	if(textView != null && user!=null){
 			if(user.getMUserNick()!=null){
