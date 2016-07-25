@@ -119,7 +119,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 								return;
 							}
 							updateAppNick(nickString);
-							updateRemoteNick(nickString);
+							//updateRemoteNick(nickString);
 
 						}
 					}).setNegativeButton(R.string.dl_cancel, null).show();
