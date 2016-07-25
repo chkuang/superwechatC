@@ -139,6 +139,7 @@ public class UserUtils {
     	if(textView != null && user!=null){
 			if(user.getMUserNick()!=null){
 				textView.setText(user.getMUserNick());
+				return;
 			}
 			Log.e(TAG,user.getMUserNick());
 			textView.setText(user.getMUserName());

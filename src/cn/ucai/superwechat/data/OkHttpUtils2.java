@@ -45,6 +45,7 @@ import cn.ucai.superwechat.SuperWeChatApplication;
  */
 public class OkHttpUtils2<T> {
     private static String UTF_8 = "utf-8";
+    private static final String TAG = "OkHttpUtils2";
     /** 解析成功的消息 */
     private static final int RESULT_SUCCESS = 0;
     /** 解析失败的消息 */
@@ -141,7 +142,7 @@ public class OkHttpUtils2<T> {
             Message msg = Message.obtain();
             msg.what = RESULT_ERROR;
             msg.obj = "忘记调用targetClass()啦";
-            Log.e("main", msg.obj.toString());
+            Log.e(TAG, "murl="+mUrl);
             mHandler.sendMessage(msg);
             return;
         }
@@ -259,7 +260,7 @@ public class OkHttpUtils2<T> {
     public OkHttpUtils2<T> setRequestUrl(String request) {
         mUrl = new StringBuilder(I.SERVER_ROOT);
         mUrl.append(I.QUESTION).append(I.KEY_REQUEST).append(I.EQU).append(request);
-//        Log.e("okhttp","1 murl="+ mUrl.toString());
+        Log.e("okhttp","1 murl="+ mUrl.toString());
         return this;
     }
 
