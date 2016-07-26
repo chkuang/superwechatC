@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.ucai.superwechat.bean.GroupAvatar;
 import cn.ucai.superwechat.bean.UserAvatar;
 
 public class SuperWeChatApplication extends Application {
@@ -131,6 +132,11 @@ public class SuperWeChatApplication extends Application {
 		this.userMap = userMap;
 	}
 
+
+
+	/**全局的当前登录用户的群组集合*/
+	private List<GroupAvatar> groupList = new ArrayList<GroupAvatar>();
+
 	public List<UserAvatar> getUserList() {
 		return userList;
 	}
@@ -148,6 +154,15 @@ public class SuperWeChatApplication extends Application {
 	public void setUser(UserAvatar user) {
 		this.user = user;
 	}
+
+	public List<GroupAvatar> getGroupList() {
+		return groupList;
+	}
+
+	public void setGroupList(List<GroupAvatar> groupList) {
+		this.groupList = groupList;
+	}
+
 
 
 }
