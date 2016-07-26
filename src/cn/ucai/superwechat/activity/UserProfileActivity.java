@@ -94,7 +94,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		if (username == null || username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAPPCurrentUserNick(tvNickName);
-			UserUtils.setAppUserAvatar(this,EMChatManager.getInstance().getCurrentUser(), headAvatar);
+			UserUtils.setCurrentUserAvatar(this, headAvatar);
 		} else {
 			tvUsername.setText(username);
 			UserUtils.setAppUserNick(username, tvNickName);
@@ -228,7 +228,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	
 
 	private void updateRemoteNick(final String nickName) {
-		dialog = ProgressDialog.show(this, getString(R.string.dl_update_nick), getString(R.string.dl_waiting));
+
 		new Thread(new Runnable() {
 
 			@Override
@@ -286,6 +286,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 		if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
 			Log.e(TAG,"update avatar to app server...");
+			dialog = ProgressDialog.show(this, getString(R.string.dl_update_nick), getString(R.string.dl_waiting));
+			dialog.show();
 			uploadUserAvatar();
 		}
 	}
@@ -304,6 +306,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					@Override
 					public void onSuccess(Result result) {
 						if(result.isRetMsg()){
+							dialog.dismiss();
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
 									Toast.LENGTH_SHORT).show();
 						}
@@ -311,6 +314,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 					@Override
 					public void onError(String error) {
+						dialog.dismiss();
 						Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail),
 								Toast.LENGTH_SHORT).show();
 					}
@@ -372,7 +376,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			}
 		}).start();
 
-		dialog.show();
 	}
 	
 	
