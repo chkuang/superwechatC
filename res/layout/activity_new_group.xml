@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eee"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/layout_group">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -71,17 +72,48 @@
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
         android:textSize="18sp" />
-    
-    
-    <LinearLayout 
+
+
+    <RelativeLayout
+        android:id="@+id/layout_group_icon"
         android:layout_width="match_parent"
-       android:layout_height="39dp"
+        android:layout_height="39dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/button_normal_shape"
         >
-        <TextView 
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/group_icon"/>
+        <EditText
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/iv_avatar"
+            android:background="@null"
+            android:hint="请选择头像"
+            android:paddingLeft="10dip"
+            android:singleLine="true"
+            android:clickable="false"
+            android:enabled="false"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_normal_shape"
+        >
+        <TextView
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,8 +123,8 @@
             android:textSize="18sp"
             android:layout_weight="1"
             />
-        
-        <CheckBox 
+
+        <CheckBox
             android:id="@+id/cb_public"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,19 +132,19 @@
             android:layout_gravity="center_vertical"
             android:button="@drawable/checkbox_bg_selector"
             />
-        
+
     </LinearLayout>
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:id="@+id/ll_open_invite"
         android:layout_width="match_parent"
-       android:layout_height="39dp"
+        android:layout_height="39dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/button_normal_shape"
         >
-        <TextView 
+        <TextView
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -122,8 +154,8 @@
             android:textSize="18sp"
             android:layout_weight="1"
             />
-        
-        <CheckBox 
+
+        <CheckBox
             android:id="@+id/cb_member_inviter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -131,7 +163,7 @@
             android:layout_gravity="center_vertical"
             android:button="@drawable/checkbox_bg_selector"
             />
-        
+
     </LinearLayout>
 
 </LinearLayout>
