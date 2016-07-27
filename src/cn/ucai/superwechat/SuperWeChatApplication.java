@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ucai.superwechat.bean.GroupAvatar;
+import cn.ucai.superwechat.bean.MemberUserAvatar;
 import cn.ucai.superwechat.bean.UserAvatar;
 
 public class SuperWeChatApplication extends Application {
@@ -122,6 +123,17 @@ public class SuperWeChatApplication extends Application {
 
 	/**全局的当前登录用户的好友MAP集合*/
 	private Map<String,UserAvatar> userMap = new HashMap<String, UserAvatar>();
+   //全局变量的群主用户集合
+	private Map<String,HashMap<String,MemberUserAvatar>> memberMap = new HashMap<String, HashMap<String, MemberUserAvatar>>();
+
+	public Map<String, HashMap<String, MemberUserAvatar>> getMemberMap() {
+		return memberMap;
+	}
+
+	public void setMemberMap(Map<String, HashMap<String, MemberUserAvatar>> memberMap) {
+		this.memberMap = memberMap;
+	}
+
 
 
 	public Map<String, UserAvatar> getUserMap() {
