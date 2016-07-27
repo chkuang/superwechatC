@@ -25,9 +25,9 @@ public class DownloadMemberMapListTask {
     String hxid;
     Context mContext;
 
-    public DownloadMemberMapListTask(Context context, String username) {
+    public DownloadMemberMapListTask(Context context, String hxid) {
         mContext = context;
-        this.hxid = username;
+        this.hxid = hxid;
     }
     public void execute(){
         final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
