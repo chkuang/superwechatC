@@ -53,7 +53,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper.HXSyncListener;
 import com.easemob.chat.EMContactManager;
@@ -367,7 +367,7 @@ public class ContactlistFragment extends Fragment {
 			}
 		}).start();
 
-		String currentName = SuperWeChatApplication.getInstance().getUserName();
+		String currentName = FuliCenterApplication.getInstance().getUserName();
 		final OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
 		utils.setRequestUrl(I.REQUEST_DELETE_CONTACT)
 				.addParam(I.Contact.USER_NAME,currentName)
@@ -378,9 +378,9 @@ public class ContactlistFragment extends Fragment {
 					public void onSuccess(Result result) {
 						if (result.isRetMsg()) {
 							((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().remove(tobeDeleteUser.getUsername());
-							UserAvatar u = SuperWeChatApplication.getInstance().getUserMap().get(tobeDeleteUser.getUsername());
-							SuperWeChatApplication.getInstance().getUserList().remove(u);
-							SuperWeChatApplication.getInstance().getUserMap().remove(tobeDeleteUser.getUsername());
+							UserAvatar u = FuliCenterApplication.getInstance().getUserMap().get(tobeDeleteUser.getUsername());
+							FuliCenterApplication.getInstance().getUserList().remove(u);
+							FuliCenterApplication.getInstance().getUserMap().remove(tobeDeleteUser.getUsername());
 							getActivity().sendStickyBroadcast(new Intent("update_contact_list"));
 						}
 					}
