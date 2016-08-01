@@ -15,13 +15,15 @@ dependencies {
     compile files('libs/okhttp-urlconnection-2.7.5.jar')
     compile files('libs/okio-1.6.0.jar')
     compile files('libs/jackson-core-asl-1.9.11.jar')
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
 }
 
 android {
     compileSdkVersion 19
     buildToolsVersion "23.0.2"
 
-    defaultConfig{
+    defaultConfig {
         applicationId "cn.ucai.fulicenter"
     }
 
