@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_upload_avatar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eff2f6"
-    android:orientation="vertical"
-    android:id="@+id/layout_upload_avatar">
+    android:orientation="vertical" >
     
 	<RelativeLayout
         android:id="@+id/title"

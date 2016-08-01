@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">FuLiCenter-AS</string>
+    <string name="app_name">FuLiCenter</string>
     <string name="text_ack_msg">Read</string>
     <string name="text_delivered_msg">Delivered</string>
     <string name="back">Back</string>
@@ -313,6 +313,7 @@
     <string name="title_activity_cart">CartActivity</string>
     <string name="title_activity_buy">BuyActivity</string>
     <string name="near_people_hint">See nearby people\'s function will get your location information, your location information will be kept for a period of time. Through the list of the top right corner to remove functions can be manually remove location information at any time.</string>
+
     <!-- 支付的字符串资源 -->
     <string name="title_activity_pay">支付</string>
     <string name="title_activity_pay_sucessed">支付成功</string>
@@ -330,4 +331,5 @@
     <string name="title_activity_pay_pal_un_synced_list">PayPalUnSyncedListActivity</string>
     <string name="share">share</string>
     <string name="user_qrcode">user qrcode</string>
+
 </resources>

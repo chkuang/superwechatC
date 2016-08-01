@@ -72,8 +72,8 @@
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
         android:textSize="18sp" />
-
-
+    
+    
     <RelativeLayout
         android:id="@+id/layout_group_icon"
         android:layout_width="match_parent"
