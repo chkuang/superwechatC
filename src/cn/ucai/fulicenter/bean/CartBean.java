@@ -1,5 +1,8 @@
 package cn.ucai.fulicenter.bean;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -17,11 +20,12 @@ public class CartBean implements Serializable{
      */
 
     private int id;
-    private int userName;
+    private String userName;
     private int goodsId;
     private int count;
-    private boolean checked;
-    private GoodDetailsBean[] goods;
+    @JsonProperty("isChecked")
+    private boolean ischecked;
+    private GoodDetailsBean goods;
 
 
 
@@ -33,11 +37,11 @@ public class CartBean implements Serializable{
         this.id = id;
     }
 
-    public int getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserName(int userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -56,20 +60,20 @@ public class CartBean implements Serializable{
     public void setCount(int count) {
         this.count = count;
     }
-
+    @JsonIgnore
     public boolean isChecked() {
-        return checked;
+        return ischecked;
     }
 
     public void setChecked(boolean checked) {
-        this.checked = checked;
+        this.ischecked = checked;
     }
 
-    public GoodDetailsBean[] getGoods() {
+    public GoodDetailsBean getGoods() {
         return goods;
     }
 
-    public void setGoods(GoodDetailsBean[] goods) {
+    public void setGoods(GoodDetailsBean goods) {
         this.goods = goods;
     }
 
@@ -80,8 +84,8 @@ public class CartBean implements Serializable{
                 ", userName=" + userName +
                 ", goodsId=" + goodsId +
                 ", count=" + count +
-                ", checked=" + checked +
-                ", goods=" + Arrays.toString(goods) +
+                ", checked=" + ischecked +
+                ", goods=" + goods.toString() +
                 '}';
     }
 }
