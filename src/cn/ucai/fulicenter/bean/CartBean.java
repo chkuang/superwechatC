@@ -85,7 +85,7 @@ public class CartBean implements Serializable{
                 ", goodsId=" + goodsId +
                 ", count=" + count +
                 ", checked=" + ischecked +
-                ", goods=" + goods.toString() +
+                ", goods=" + goods +
                 '}';
     }
 }
