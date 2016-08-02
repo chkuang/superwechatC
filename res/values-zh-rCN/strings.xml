@@ -381,4 +381,6 @@
     <string name="msg_501">获取附近的人失败</string>
     <string name="msg_999">未知错误</string>
     <string name="msg_1">非法请求</string>
+    <string name="load_more" >加载更多</string>
+    <string name="no_more">没有更多加载了</string>
 </resources>
