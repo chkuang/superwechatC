@@ -11,6 +11,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.ucai.fulicenter.I;
@@ -32,6 +35,7 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void setFooterString(String footerString) {
         this.footerString = footerString;
+        notifyDataSetChanged();
     }
 
     public boolean isMore() {
@@ -46,6 +50,7 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         mContext = context;
         mGoodList = new ArrayList<NewGoodBean>();
         mGoodList.addAll(list);
+        soryByAddTime();
     }
 
     @Override
@@ -92,13 +97,20 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return mGoodList!=null?mGoodList.size()+1:1;
     }
 
-    public void initData(ArrayList<NewGoodBean> list) {
+    public void initItem(ArrayList<NewGoodBean> list) {
         if(mGoodList!=null){
             mGoodList.clear();
         }
         mGoodList.addAll(list);
+        soryByAddTime();
         notifyDataSetChanged();
 
+    }
+
+    public void addItem(ArrayList<NewGoodBean> list) {
+        mGoodList.addAll(list);
+        soryByAddTime();
+        notifyDataSetChanged();
     }
 
     class GoodViewHolder extends RecyclerView.ViewHolder{
@@ -113,5 +125,14 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             tvGoodName = (TextView) itemView.findViewById(R.id.tv_good_name);
             tvGoodPrice = (TextView) itemView.findViewById(R.id.tv_good_price);
         }
+    }
+
+    private void soryByAddTime(){
+        Collections.sort(mGoodList, new Comparator<NewGoodBean>() {
+            @Override
+            public int compare(NewGoodBean goodLeft, NewGoodBean goodRight) {
+                return (int) (Long.valueOf(goodRight.getAddTime())-Long.valueOf(goodLeft.getAddTime()));
+            }
+        });
     }
 }
