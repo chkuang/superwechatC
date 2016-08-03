@@ -13,7 +13,7 @@
         <include layout="@layout/common_head_title"/>
 
         <ImageView
-            android:id="@+id/ivShare"
+            android:id="@+id/iv_good_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -22,23 +22,23 @@
             android:src="@drawable/selector_share_bg" />
 
         <ImageView
-            android:id="@+id/ivCollect"
+            android:id="@+id/iv_good_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/ivShare"
+            android:layout_toLeftOf="@id/iv_good_share"
             android:padding="5dp"
             android:src="@drawable/bg_collect_in" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/ivCollect"
+            android:layout_toLeftOf="@id/iv_good_collect"
             android:layout_centerVertical="true"
             android:padding="5dp" >
 
             <ImageView
-                android:id="@+id/ivAddCart"
+                android:id="@+id/iv_good_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -46,7 +46,7 @@
                 android:src="@drawable/bg_cart_selected" />
 
             <TextView
-                android:id="@+id/tvCartCount"
+                android:id="@+id/tv_cart_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -84,11 +84,11 @@
             android:textColor="#000" />
 
         <TextView
-            android:id="@+id/tv_good_price"
+            android:id="@+id/tv_good_price_shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="tv_good_price"
+            android:text="tv_good_price_shop"
             android:textColor="#000" />
 
         <TextView
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/tv_good_price"
+            android:layout_below="@id/tv_good_price_shop"
             android:text="tv_good_price_current"
             android:textColor="@color/good_detail_currency_price" />
 
