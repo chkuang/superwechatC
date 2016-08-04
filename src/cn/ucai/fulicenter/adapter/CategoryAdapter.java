@@ -21,8 +21,8 @@ import cn.ucai.fulicenter.utils.ImageUtils;
  */
 public class CategoryAdapter extends BaseExpandableListAdapter{
     Context mContext;
-    ArrayList<CategoryGroupBean> mGroupList;
-    ArrayList<ArrayList<CategoryChildBean>>mChildList;
+    List<CategoryGroupBean> mGroupList;
+    List<ArrayList<CategoryChildBean>>mChildList;
 
     public CategoryAdapter(Context mContext,
                            List<CategoryGroupBean> mGroupList,
