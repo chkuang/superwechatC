@@ -22,6 +22,7 @@ import cn.ucai.fulicenter.adapter.GoodAdapter;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
+import cn.ucai.fulicenter.view.DisplayUtils;
 
 public class BoutiqueChildActivity extends Activity {
     private final  static String TAG = NewGoodFragment.class.getSimpleName();
@@ -51,7 +52,7 @@ public class BoutiqueChildActivity extends Activity {
     }
 
     private void setListener() {
-        setPullDownRefreshListener();
+//        setPullDownRefreshListener();
         setPullUpRefreshListener();
     }
 
@@ -161,6 +162,7 @@ public class BoutiqueChildActivity extends Activity {
                 R.color.google_green
         );
         String name = getIntent().getStringExtra(D.Boutique.KEY_NAME);
+        DisplayUtils.initBackWithTitle(mContext,name);
         Log.e(TAG,"name = "+name);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_boutiquechid);
         mGridLayoutManager = new GridLayoutManager(mContext, I.COLUM_NUM);
