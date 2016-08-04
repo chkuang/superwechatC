@@ -19,7 +19,6 @@ import java.util.List;
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.GoodDetailsActivity;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.view.FooterViewHolder;
@@ -63,7 +62,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 holder = new FooterViewHolder(inflater.inflate(R.layout.item_footer,parent,false));
                 break;
             case  I.TYPE_ITEM:
-                holder = new BoutiqueViewHolder(inflater.inflate(R.layout.item_good,parent,false));
+                holder = new BoutiqueViewHolder(inflater.inflate(R.layout.item_boutique,parent,false));
 
         }
         return holder;
