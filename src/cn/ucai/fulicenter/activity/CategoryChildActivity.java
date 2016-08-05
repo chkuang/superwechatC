@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,10 +32,14 @@ public class CategoryChildActivity extends Activity {
     GridLayoutManager mGridLayoutManager;
     GoodAdapter mAdapter;
     List<NewGoodBean> mGoodList;
-
     TextView tvHint;
-    int catId=0;
 
+    Button btnSortPrice;
+    Button btnSortAddTime;
+    boolean mSortPriceAsc;
+    int sortBy;
+
+    int catId=0;
     int pageId = 0;
     int action = I.ACTION_DOWNLOAD;
 
@@ -44,14 +49,18 @@ public class CategoryChildActivity extends Activity {
         setContentView(R.layout.activity_category_child);
         mContext = this;
         mGoodList = new ArrayList<NewGoodBean>();
+        sortBy = I.SORT_BY_ADDTIME_DESC;
         initView();
         initData();
         setListener();
     }
 
     private void setListener() {
-//        setPullDownRefreshListener();
+        setPullDownRefreshListener();
         setPullUpRefreshListener();
+        SortStatusChangedListener listener = new SortStatusChangedListener();
+        btnSortPrice.setOnClickListener(listener);
+        btnSortAddTime.setOnClickListener(listener);
     }
 
     private void setPullUpRefreshListener() {
@@ -160,7 +169,7 @@ public class CategoryChildActivity extends Activity {
                 R.color.google_green
         );
 //        String name = getIntent().getStringExtra(D.Boutique.KEY_NAME);
-//        DisplayUtils.initBackWithTitle(mContext,name);
+        DisplayUtils.initBack(mContext);
 //        Log.e(TAG,"name = "+name);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_category_chid);
         mGridLayoutManager = new GridLayoutManager(mContext, I.COLUM_NUM);
@@ -169,6 +178,34 @@ public class CategoryChildActivity extends Activity {
         mAdapter = new GoodAdapter(mContext,mGoodList);
         mRecyclerView.setAdapter(mAdapter);
         tvHint = (TextView) findViewById(R.id.tv_refresh_hint);
+        btnSortAddTime = (Button) findViewById(R.id.btn_sort_addtime);
+        btnSortPrice = (Button) findViewById(R.id.btn_sort_price);
+    }
+
+    class SortStatusChangedListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.btn_sort_price:
+                    if(mSortPriceAsc){
+                        sortBy = I.SORT_BY_PRICE_ASC;
+                    }else {
+                        sortBy = I.SORT_BY_PRICE_DESC;
+                    }
+                    mSortPriceAsc = !mSortPriceAsc;
+                    break;
+                case R.id.btn_sort_addtime:
+                    if (mSortPriceAsc){
+                        sortBy = I.SORT_BY_ADDTIME_ASC;
+                    }else{
+                        sortBy = I.SORT_BY_ADDTIME_DESC;
+                    }
+                    mSortPriceAsc = !mSortPriceAsc;
+                    break;
+            }
+            mAdapter.setSortBy(sortBy);
+        }
     }
 
 }
