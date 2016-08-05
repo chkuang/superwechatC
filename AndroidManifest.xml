@@ -285,6 +285,9 @@
         <activity android:name=".activity.BoutiqueChildActivity"
             android:theme="@style/horizontal_slide">
         </activity>
+        <activity android:name=".activity.CategoryChildActivity"
+            android:theme="@style/horizontal_slide">
+        </activity>
     </application>
 
 </manifest>
