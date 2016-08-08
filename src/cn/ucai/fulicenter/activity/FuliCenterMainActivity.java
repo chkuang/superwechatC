@@ -24,6 +24,7 @@ public class FuliCenterMainActivity extends BaseActivity{
     NewGoodFragment mNewGoodFragment;
     BoutiqueFragment mBoutiqueFragment;
     CategoryFragment mCategoryFragment;
+    PersonalCenterFragment mPersonalCenterFragment;
     Fragment[] mFragment;
 
     @Override
@@ -47,11 +48,12 @@ public class FuliCenterMainActivity extends BaseActivity{
         mNewGoodFragment = new NewGoodFragment();
         mBoutiqueFragment = new BoutiqueFragment();
         mCategoryFragment = new CategoryFragment();
+        mPersonalCenterFragment = new PersonalCenterFragment();
         mFragment = new Fragment[5];
         mFragment[0] = mNewGoodFragment;
         mFragment[1] = mBoutiqueFragment;
         mFragment[2] = mCategoryFragment;
-
+        mFragment[4] = mPersonalCenterFragment;
     }
 
     private void initView() {
