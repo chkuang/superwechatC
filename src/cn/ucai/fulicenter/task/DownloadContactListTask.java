@@ -37,6 +37,9 @@ public class DownloadContactListTask {
                         Utils.getResultFromJson(s, UserAvatar.class);
                         Result result =  Utils.getListResultFromJson(s,UserAvatar.class);
                         Log.i("main","result="+result);
+                        if (result ==null){
+                            return;
+                        }
                         List<UserAvatar> list = (List<UserAvatar>) result.getRetData();
                         if(list!=null && list.size()>0){
                             Log.i("main","List.Size="+list.size());

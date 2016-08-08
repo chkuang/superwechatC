@@ -298,9 +298,8 @@ public class LoginActivity extends BaseActivity {
 		}
 		// 进入主页面
 		Intent intent = new Intent(LoginActivity.this,
-				MainActivity.class);
+				FuliCenterMainActivity.class);
 		startActivity(intent);
-
 		finish();
 	}
 
