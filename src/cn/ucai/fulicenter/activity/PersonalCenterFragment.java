@@ -63,6 +63,7 @@ public class PersonalCenterFragment extends Fragment{
 
     private void setListener() {
         MyClickListener listener = new MyClickListener();
+        layoutCollect.setOnClickListener(listener);
         mtvSettings.setOnClickListener(listener);
         layoutUserCenter.setOnClickListener(listener);
         updateCollectListener();
@@ -77,6 +78,8 @@ public class PersonalCenterFragment extends Fragment{
                     case R.id.center_user_info:
                         startActivity(new Intent(mContext,SettingsActivity.class));
                         break;
+                    case R.id.layout_center_collect:
+                        startActivity(new Intent(mContext,CollectActivity.class));
                 }
             }else{
                 Log.e(TAG,"没有用户登录");

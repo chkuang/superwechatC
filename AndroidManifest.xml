@@ -291,6 +291,9 @@
         <activity android:name=".activity.SettingsActivity"
             android:theme="@style/horizontal_slide">
         </activity>
+        <activity android:name=".activity.CollectActivity"
+            android:theme="@style/horizontal_slide">
+        </activity>
     </application>
 
 </manifest>
