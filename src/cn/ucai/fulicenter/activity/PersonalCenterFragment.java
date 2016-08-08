@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,7 +23,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cn.ucai.fulicenter.DemoHXSDKHelper;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.UserAvatar;
+import cn.ucai.fulicenter.utils.UserUtils;
 
 /**
  * Created by Administrator on 2016/8/8.
@@ -41,14 +47,25 @@ public class PersonalCenterFragment extends Fragment{
         mContext = (FuliCenterMainActivity) getContext();
         View layout = View.inflate(mContext, R.layout.fragment_personal_center,null);
         initView(layout);
+        initData();
         setListener();
         return layout;
+    }
+
+    private void initData() {
+        if(DemoHXSDKHelper.getInstance().isLogined()){
+            UserAvatar user = FuliCenterApplication.getInstance().getUser();
+            Log.e(TAG,"user = "+user);
+            UserUtils.setAPPCurrentUserNick(mtvUserName);
+            UserUtils.setAppCurrentUserAvatar(mContext,mivUserAvatar);
+        }
     }
 
     private void setListener() {
         MyClickListener listener = new MyClickListener();
         mtvSettings.setOnClickListener(listener);
         layoutUserCenter.setOnClickListener(listener);
+        updateCollectListener();
     }
     class MyClickListener implements View.OnClickListener{
 
@@ -99,5 +116,30 @@ public class PersonalCenterFragment extends Fragment{
         SimpleAdapter adapter = new SimpleAdapter(mContext,data,R.layout.simple_adapter,
                 new String[]{"order"},new int[]{R.id.iv_order});
         gvOrderList.setAdapter(adapter);
+    }
+
+
+    class  UpdateCollectCount extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int count = FuliCenterApplication.getInstance().getCollectCount();
+            Log.e(TAG,"count = "+count);
+            mtvCollectCount.setText(String.valueOf(count));
+        }
+    }
+    UpdateCollectCount mReceiver;
+    private void updateCollectListener(){
+        mReceiver = new UpdateCollectCount();
+        IntentFilter filter = new IntentFilter("update_collect");
+        mContext.registerReceiver(mReceiver,filter);
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mContext.unregisterReceiver(mReceiver);
     }
 }

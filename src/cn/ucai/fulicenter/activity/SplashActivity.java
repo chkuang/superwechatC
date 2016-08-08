@@ -21,6 +21,7 @@ import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.db.UserDao;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.Utils;
 
@@ -67,45 +68,46 @@ public class SplashActivity extends BaseActivity {
 					String username = FuliCenterApplication.getInstance().getUserName();
 					Log.e("main","username="+username);
 					UserDao dao = new UserDao(SplashActivity.this);
-//					UserAvatar user = dao.getUserAvatar(username);
-//					Log.e("main","user="+user);
-//					if(user == null) {
-//						final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
-//						utils.setRequestUrl(I.REQUEST_FIND_USER)
-//								.addParam(I.User.USER_NAME,username)
-//								.targetClass(String.class)
-//								.execute(new OkHttpUtils2.OnCompleteListener<String>() {
-//									@Override
-//									public void onSuccess(String s) {
-//										Log.e(TAG,"s="+s);
-//										Result result = Utils.getResultFromJson(s,UserAvatar.class);
-//										Log.e("TAG","result="+result);
-//										if(result!=null& result.isRetMsg()){
-//											UserAvatar user = (UserAvatar) result.getRetData();
-//											Log.e(TAG,"user="+user);
-//											if (user!=null){
-//												//服务器存在此用户，显示此用户和添加按钮
-//												FuliCenterApplication.getInstance().setUser(user);
-//												FuliCenterApplication.currentUserNick = user.getMUserNick();
-//											}
-//										}
-//									}
-//									@Override
-//									public void onError(String error) {
-//										Log.e(TAG,"error="+error);
-//									}
-//								});
-//					}else{
-//						FuliCenterApplication.getInstance().setUser(user);
-//						FuliCenterApplication.currentUserNick = user.getMUserNick();
-//					}
-//
-//					if (user!=null){
-//					FuliCenterApplication.getInstance().setUser(user);
-//					FuliCenterApplication.currentUserNick = user.getMUserNick();
-//					Log.e(TAG,"user.getMUserNick="+user.getMUserNick());
-//				}
-//					new DownloadContactListTask(SplashActivity.this,username).execute();
+					UserAvatar user = dao.getUserAvatar(username);
+					Log.e("main","user="+user);
+					if(user == null) {
+						final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
+						utils.setRequestUrl(I.REQUEST_FIND_USER)
+								.addParam(I.User.USER_NAME,username)
+								.targetClass(String.class)
+								.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+									@Override
+									public void onSuccess(String s) {
+										Log.e(TAG,"s="+s);
+										Result result = Utils.getResultFromJson(s,UserAvatar.class);
+										Log.e("TAG","result="+result);
+										if(result!=null& result.isRetMsg()){
+											UserAvatar user = (UserAvatar) result.getRetData();
+											Log.e(TAG,"user="+user);
+											if (user!=null){
+												//服务器存在此用户，显示此用户和添加按钮
+												FuliCenterApplication.getInstance().setUser(user);
+												FuliCenterApplication.currentUserNick = user.getMUserNick();
+											}
+										}
+									}
+									@Override
+									public void onError(String error) {
+										Log.e(TAG,"error="+error);
+									}
+								});
+					}else{
+						FuliCenterApplication.getInstance().setUser(user);
+						FuliCenterApplication.currentUserNick = user.getMUserNick();
+					}
+
+					if (user!=null){
+					FuliCenterApplication.getInstance().setUser(user);
+					FuliCenterApplication.currentUserNick = user.getMUserNick();
+					Log.e(TAG,"user.getMUserNick="+user.getMUserNick());
+				}
+					new DownloadContactListTask(SplashActivity.this,username).execute();
+					new DownloadCollectCountTask(SplashActivity.this,username).execute();
 
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
