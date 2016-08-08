@@ -1,9 +1,11 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 
 /**
@@ -38,7 +41,30 @@ public class PersonalCenterFragment extends Fragment{
         mContext = (FuliCenterMainActivity) getContext();
         View layout = View.inflate(mContext, R.layout.fragment_personal_center,null);
         initView(layout);
+        setListener();
         return layout;
+    }
+
+    private void setListener() {
+        MyClickListener listener = new MyClickListener();
+        mtvSettings.setOnClickListener(listener);
+        layoutUserCenter.setOnClickListener(listener);
+    }
+    class MyClickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            if (DemoHXSDKHelper.getInstance().isLogined()){
+                switch (v.getId()){
+                    case R.id.tv_center_settings:
+                    case R.id.center_user_info:
+                        startActivity(new Intent(mContext,SettingsActivity.class));
+                        break;
+                }
+            }else{
+                Log.e(TAG,"没有用户登录");
+            }
+        }
     }
 
     private void initView(View layout) {
