@@ -80,6 +80,7 @@ public class PersonalCenterFragment extends Fragment{
                         break;
                     case R.id.layout_center_collect:
                         startActivity(new Intent(mContext,CollectActivity.class));
+                        break;
                 }
             }else{
                 Log.e(TAG,"没有用户登录");

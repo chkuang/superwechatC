@@ -1,9 +1,11 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.audiofx.LoudnessEnhancer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import cn.ucai.fulicenter.bean.AlbumBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -43,6 +46,8 @@ public class GoodDetailsActivity extends Activity {
     WebView wvGoodBrief;
     int mGoodId;
 
+    boolean isCollect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,12 @@ public class GoodDetailsActivity extends Activity {
         mContext  = this;
         initView();
         initData();
+        setLisetener();
+    }
+
+    private void setLisetener() {
+        MyOnClickListener listener = new MyOnClickListener();
+        ivCollect.setOnClickListener(listener);
     }
 
     private void initData() {
@@ -153,11 +164,11 @@ public class GoodDetailsActivity extends Activity {
                         public void onSuccess(MessageBean result) {
                             Log.e(TAG,"result = "+result);
                             if(result!=null && result.isSuccess()){
-                                ivCollect.setImageResource(R.drawable.bg_collect_out);
+                                isCollect = true;
                             }else{
-                                ivCollect.setImageResource(R.drawable.bg_collect_in);
-
+                                isCollect = false;
                             }
+                            updateCollectStatus();
                         }
 
                         @Override
@@ -165,6 +176,57 @@ public class GoodDetailsActivity extends Activity {
                             Log.e(TAG,"error = "+error);
                         }
                     });
+        }
+    }
+    
+    class MyOnClickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.iv_good_collect:
+                    goodCollect();
+                    break;
+            }
+        }
+    }
+
+    private void goodCollect() {
+        if (DemoHXSDKHelper.getInstance().isLogined()){
+            OkHttpUtils2<MessageBean> utils = new OkHttpUtils2<MessageBean>();
+            utils.setRequestUrl(I.REQUEST_DELETE_COLLECT)
+                    .addParam(I.Collect.USER_NAME, FuliCenterApplication.getInstance().getUserName())
+                    .addParam(I.Collect.GOODS_ID,String.valueOf(mGoodId))
+                    .targetClass(MessageBean.class)
+                    .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            Log.e(TAG,"result = "+result);
+                            if (result!=null){
+                                new DownloadCollectCountTask(mContext,FuliCenterApplication.getInstance().getUserName()).execute();
+                            }else{
+                                Log.e(TAG,"delete fail");
+                            }
+                            updateCollectStatus();
+                            Toast.makeText(mContext, result.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+
+        }else{
+            startActivity(new Intent(mContext,LoginActivity.class));
+        }
+    }
+    private void updateCollectStatus(){
+        if (isCollect){
+            ivCollect.setImageResource(R.drawable.bg_collect_out);
+        }else{
+            ivCollect.setImageResource(R.drawable.bg_collect_in);
+
         }
     }
 }
