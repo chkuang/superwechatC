@@ -1,7 +1,10 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.audiofx.LoudnessEnhancer;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +27,7 @@ import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.task.DownloadCollectCountTask;
+import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -65,6 +69,7 @@ public class GoodDetailsActivity extends Activity {
         MyOnClickListener listener = new MyOnClickListener();
         ivCollect.setOnClickListener(listener);
         ivShare.setOnClickListener(listener);
+        updateCartCountListener();
     }
 
     private void initData() {
@@ -302,6 +307,38 @@ public class GoodDetailsActivity extends Activity {
             ivCollect.setImageResource(R.drawable.bg_collect_out);
         }else{
             ivCollect.setImageResource(R.drawable.bg_collect_in);
+        }
+    }
+    class UpdateCartNumReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateCartNum();
+        }
+    }
+    UpdateCartNumReceiver mReceiver;
+    private void updateCartCountListener(){
+        mReceiver  = new UpdateCartNumReceiver();
+        IntentFilter filter = new IntentFilter("update_cart_list");
+        registerReceiver(mReceiver,filter);
+    }
+
+    private void updateCartNum() {
+        int count = Utils.sumCartCount();
+        if(!DemoHXSDKHelper.getInstance().isLogined() || count==0){
+            tvCartCount.setText(String.valueOf(0));
+            tvCartCount.setVisibility(View.GONE);
+        }else{
+            Log.e(TAG,"count ="+count);
+            tvCartCount.setText(String.valueOf(count));
+            tvCartCount.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mReceiver!=null){
+            unregisterReceiver(mReceiver);
         }
     }
 }

@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.Pager;
 import cn.ucai.fulicenter.bean.Result;
 
@@ -23,6 +25,7 @@ import cn.ucai.fulicenter.bean.Result;
  * Created by clawpo on 16/3/28.
  */
 public class Utils {
+    private final static String TAG = Utils.class.getSimpleName();
     public static String getPackageName(Context context){
         return context.getPackageName();
     }
@@ -204,5 +207,15 @@ public class Utils {
     public static int dp2px(Context context,int dp){
         int density = (int) context.getResources().getDisplayMetrics().density;
         return dp*density;
+    }
+
+    public static int sumCartCount(){
+        int count = 0;
+        List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
+        for (CartBean cart : cartList){
+            count+=cart.getCount();
+        }
+        Log.e(TAG,"count = "+count);
+        return count;
     }
 }

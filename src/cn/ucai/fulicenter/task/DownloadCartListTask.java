@@ -44,8 +44,9 @@ public class DownloadCartListTask {
                     public void onSuccess(CartBean[] s) {
                         Log.i("main","s="+s);
                         if (s!=null){
-                            ArrayList<CartBean> list = new ArrayList<CartBean>();
-                            List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
+                            ArrayList<CartBean> list = Utils.array2List(s);
+                            final List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
+
                             for (final CartBean cart : list){
                                 if (!cartList.contains(cart)){
                                     OkHttpUtils2<GoodDetailsBean> utils = new OkHttpUtils2<GoodDetailsBean>();
@@ -56,6 +57,8 @@ public class DownloadCartListTask {
                                                 @Override
                                                 public void onSuccess(GoodDetailsBean result) {
                                                     cart.setGoods(result);
+                                                    cartList.add(cart);
+                                                    Log.e(TAG,"cartList = "+cartList.size());
                                                 }
 
                                                 @Override
@@ -64,14 +67,17 @@ public class DownloadCartListTask {
                                                 }
                                             });
 
-                                    cartList.add(cart);
+//                                    cartList.add(cart);
+//                                    Log.e(TAG,"cartList = "+cartList.size());
                                 }else{
                                     cartList.get(cartList.indexOf(cart)).setChecked(cart.isChecked());
                                     cartList.get(cartList.indexOf(cart)).setCount(cart.getCount());
                                 }
                             }
+                            Log.e(TAG,"cartList="+cartList.toString());
                             mContext.sendStickyBroadcast(new Intent("update_cart_list"));
                         }
+
                     }
 
                     @Override
