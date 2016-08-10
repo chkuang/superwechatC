@@ -58,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if (holder instanceof CartViewHolder){
             mCartViewHolder = (CartViewHolder) holder;
             final CartBean cart = mCartList.get(position);
-            mCartViewHolder.cbCart.setChecked(cart.isChecked());
+            mCartViewHolder.cbCart.setChecked(true);
             ImageUtils.setGoodThumb(mContext, mCartViewHolder.ivCartThumb,cart.getGoods().getGoodsThumb());
             mCartViewHolder.tvGoodName.setText(cart.getGoods().getGoodsName());
             mCartViewHolder.tvNum.setText("("+cart.getCount()+")");
