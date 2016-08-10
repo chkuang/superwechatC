@@ -156,6 +156,7 @@ public class FuliCenterMainActivity extends BaseActivity{
         Log.e(TAG,"onResume");
         if (!DemoHXSDKHelper.getInstance().isLogined() && index==4){
             index=0;
+            updateCartNum();
         }
         setFragment();
         setRadioButtonStatus(currentIndex);
