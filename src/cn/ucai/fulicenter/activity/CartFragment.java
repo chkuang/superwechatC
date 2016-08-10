@@ -14,27 +14,32 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
+import cn.ucai.fulicenter.adapter.CartAdapter;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
 
 /**
  * Created by Administrator on 2016/8/3.
  */
-public class BoutiqueFragment extends Fragment {
-    private final  static String TAG = BoutiqueFragment.class.getSimpleName();
+public class CartFragment extends Fragment {
+    private final  static String TAG = CartFragment.class.getSimpleName();
     FuliCenterMainActivity mContext;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     RecyclerView mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
-    BoutiqueAdapter mAdapter;
-    List<BoutiqueBean> mBoutiqueList;
-
+    CartAdapter mAdapter;
+    ArrayList<CartBean> mCartList;
     TextView tvHint;
+    TextView tvSumPrice;
+    TextView tvSavePrice;
+    TextView tvBuy;
 
     int pageId = 0;
     int action = I.ACTION_DOWNLOAD;
@@ -43,8 +48,8 @@ public class BoutiqueFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mContext = (FuliCenterMainActivity) getContext();
-        View layout = View.inflate(mContext,R.layout.fragment_boutique,null);
-        mBoutiqueList = new ArrayList<BoutiqueBean>();
+        View layout = View.inflate(mContext,R.layout.fragment_cart,null);
+        mCartList = new ArrayList<CartBean>();
         initView(layout);
         initData();
         setListener();
@@ -103,60 +108,43 @@ public class BoutiqueFragment extends Fragment {
     }
 
     private void initData() {
-        findNewGoodList(new OkHttpUtils2.OnCompleteListener<BoutiqueBean[]>() {
-            @Override
-            public void onSuccess(BoutiqueBean[] result) {
-                tvHint.setVisibility(View.GONE);
-                mAdapter.setMore(true);
-                mSwipeRefreshLayout.setRefreshing(false);
-                mAdapter.setFooterString(getResources().getString(R.string.load_more));
-                Log.e(TAG,"result = "+result);
-                if(result != null){
-                    Log.e(TAG,"result.length = "+result.length );
-                    ArrayList<BoutiqueBean> goodBeanArrayList = Utils.array2List(result);
-                    if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN){
-                        mAdapter.initItem(goodBeanArrayList);
-                    }else{
-                        mAdapter.addItem(goodBeanArrayList);
-                    }
-                    if (goodBeanArrayList.size()<I.PAGE_SIZE_DEFAULT){
-                        mAdapter.setMore(false);
-                        mAdapter.setFooterString(getResources().getString(R.string.no_more));
-                    }
-                }else{
-                    mAdapter.setMore(false);
-                    mAdapter.setFooterString(getResources().getString(R.string.no_more));
-                }
+        List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
+        mCartList.clear();
+        mCartList.addAll(cartList);
+        mSwipeRefreshLayout.setRefreshing(false);
+        tvHint.setVisibility(View.GONE);
+        mAdapter.setMore(true);
+        if (mCartList!=null && mCartList.size()>0){
+
+            if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN){
+                mAdapter.initItem(mCartList);
+            }else{
+                mAdapter.addItem(mCartList);
             }
-
-            @Override
-            public void onError(String error) {
-
+            if (mCartList.size()<I.PAGE_SIZE_DEFAULT){
+                mAdapter.setMore(false);
             }
-        });
+        }else{
+            mAdapter.setMore(false);
+        }
     }
-    private void findNewGoodList(OkHttpUtils2.OnCompleteListener<BoutiqueBean[]>listener){
-        OkHttpUtils2<BoutiqueBean[]> utils = new OkHttpUtils2<BoutiqueBean[]>();
-        utils.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
-                .targetClass(BoutiqueBean[].class)
-                .execute(listener);
-
-    }
-
     private void initView(View layout){
-        mSwipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.srl_boutique);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.srl_cart);
         mSwipeRefreshLayout.setColorSchemeColors(
                 R.color.google_blue,
                 R.color.google_yellow,
                 R.color.google_red,
                 R.color.google_green
         );
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.rv_bourique);
+        mRecyclerView = (RecyclerView) layout.findViewById(R.id.rv_cart);
         mLinearLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter = new BoutiqueAdapter(mContext, mBoutiqueList);
+        mAdapter = new CartAdapter(mContext, mCartList);
         mRecyclerView.setAdapter(mAdapter);
         tvHint = (TextView) layout.findViewById(R.id.tv_refresh_hint);
+        tvSumPrice = (TextView) layout.findViewById(R.id.tv_cart_sum_price);
+        tvSavePrice = (TextView) layout.findViewById(R.id.tv_cart_save_price);
+        tvBuy = (TextView) layout.findViewById(R.id.tv_cart_buy);
     }
 
 }

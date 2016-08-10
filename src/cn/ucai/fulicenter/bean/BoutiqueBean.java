@@ -2,23 +2,19 @@ package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
-/**
- * Created by Administrator on 2016/7/29.
- */
-public class BoutiqueBean implements Serializable{
-
-    /**
-     * id : 262
-     * title : 不一样的新妆，不一样的美丽
-     * description : 快速增长修护预防脱发洗发水让头发健康快速生长更美丽
-     * name : 拯救头发，美丽新妆
-     * imageurl : cat_image/boutique1.jpg
-     */
-
+public class BoutiqueBean implements Serializable {
+    /** 分类id*/
     private int id;
+    /** 标题*/
     private String title;
+    
+    /** 简介*/
     private String description;
+    
+    /** 名称*/
     private String name;
+
+    /** 图片地址*/
     private String imageurl;
 
     public int getId() {
@@ -63,12 +59,9 @@ public class BoutiqueBean implements Serializable{
 
     @Override
     public String toString() {
-        return "BoutiqueBean{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", name='" + name + '\'' +
-                ", imageurl='" + imageurl + '\'' +
-                '}';
+        return "BoutiqueBean [id=" + id + ", title=" + title + ", description="
+                + description + ", name=" + name + ", imageurl=" + imageurl
+                + "]";
     }
+
 }

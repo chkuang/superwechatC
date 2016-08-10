@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white">
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_cart_sum_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合计：￥888.00"
+            android:textColor="#f90"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/tv_cart_save_price"
+            android:layout_alignLeft="@+id/tv_cart_sum_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_cart_sum_price"
+            android:textColor="@color/google_red"
+            android:text="节省：￥666.00"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/tv_cart_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/main_orange"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:gravity="center"
+            android:text="购买"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/srl_cart"
+        android:background="@color/list_background">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/common_refresh_hint"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rv_cart">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

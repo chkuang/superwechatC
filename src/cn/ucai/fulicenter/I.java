@@ -226,7 +226,7 @@ public enum ActionType {
 		String IS_SEARCHED 							= 		"m_location_is_searched";		//是否可以被搜索到
 		String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
 	}
-	String SERVER_ROOT                              =       "http://192.168.10.155:8888/FuLiCenterServer/Server";
+	String SERVER_ROOT                              =       "http://192.168.10.229:8888/FuLiCenterServer/Server";
 
 
     public final int NEW_GOOD=0;
