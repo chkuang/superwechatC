@@ -59,6 +59,7 @@ public class DownloadCartListTask {
                                                     cart.setGoods(result);
                                                     cartList.add(cart);
                                                     Log.e(TAG,"cartList = "+cartList.size());
+                                                    mContext.sendStickyBroadcast(new Intent("update_cart_list"));
                                                 }
 
                                                 @Override

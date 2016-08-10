@@ -59,10 +59,12 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             mCartViewHolder = (CartViewHolder) holder;
             final CartBean cart = mCartList.get(position);
             mCartViewHolder.cbCart.setChecked(true);
-            ImageUtils.setGoodThumb(mContext, mCartViewHolder.ivCartThumb,cart.getGoods().getGoodsThumb());
-            mCartViewHolder.tvGoodName.setText(cart.getGoods().getGoodsName());
-            mCartViewHolder.tvNum.setText("("+cart.getCount()+")");
-            mCartViewHolder.tvPrice.setText(cart.getGoods().getCurrencyPrice());
+            if(cart.getGoods()!=null) {
+                ImageUtils.setGoodThumb(mContext, mCartViewHolder.ivCartThumb, cart.getGoods().getGoodsThumb());
+                mCartViewHolder.tvGoodName.setText(cart.getGoods().getGoodsName());
+                mCartViewHolder.tvNum.setText("(" + cart.getCount() + ")");
+                mCartViewHolder.tvPrice.setText(cart.getGoods().getCurrencyPrice());
+            }
         }
 //        if (holder instanceof FooterViewHolder){
 //            mFooterViewHolder = (FooterViewHolder) holder;

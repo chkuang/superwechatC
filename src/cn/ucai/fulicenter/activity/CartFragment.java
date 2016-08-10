@@ -64,7 +64,7 @@ public class CartFragment extends Fragment {
     }
 
     private void setListener() {
-//        setPullDownRefreshListener();
+        setPullDownRefreshListener();
         setUpdateCartListener();
         setPullUpRefreshListener();
     }
@@ -184,11 +184,13 @@ public class CartFragment extends Fragment {
     }
 
     private void sumPrice(){
+        Log.e(TAG,"mCartList = "+mCartList.size());
         if(mCartList!=null && mCartList.size()>0){
             int sumPrice=0;
             int rankPrice = 0;
             for (CartBean cart : mCartList){
                 GoodDetailsBean good = cart.getGoods();
+                Log.e(TAG,"goodCurrentPrice = "+good.getCurrencyPrice());
                 if (good!=null && cart.isChecked()){
                     sumPrice+=convertPrice(good.getCurrencyPrice())*cart.getCount();
                     rankPrice+=convertPrice(good.getRankPrice())*cart.getCount();
