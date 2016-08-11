@@ -216,22 +216,29 @@ public class GoodDetailsActivity extends Activity {
     private void addCart() {
         List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
         CartBean cart = new CartBean();
-        for (CartBean cartBean :cartList){
-            if (cartBean.getGoodsId() == mGoodId){
+        Boolean isExits = false;
+        for (CartBean cartBean :cartList) {
+            if (cartBean.getGoodsId() == mGoodId) {
+                cart.setId(cartBean.getId());
+                cart.setGoodsId(mGoodId);
                 cart.setChecked(cartBean.isChecked());
-                cart.setCount(cartBean.getCount()+1);
+                cart.setCount(cartBean.getCount() + 1);
                 cart.setGoods(mGoodDetail);
                 cart.setUserName(cartBean.getUserName());
-            }else{
-                cart.setChecked(true);
-                cart.setCount(1);
-                cart.setGoods(mGoodDetail);
-                cart.setUserName(FuliCenterApplication.getInstance().getUserName());
+                isExits = true;
             }
         }
-        new UpdateCartTask(mContext,cart).execute();
+        if(!isExits){
+            cart.setGoodsId(mGoodId);
+                    cart.setChecked(true);
+                    cart.setCount(1);
+                    cart.setGoods(mGoodDetail);
+                    cart.setUserName(FuliCenterApplication.getInstance().getUserName());
+        }
 
+        new UpdateCartTask(mContext,cart).execute();
     }
+
 
 
     private void showShare() {
