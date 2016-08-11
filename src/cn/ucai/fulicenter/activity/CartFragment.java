@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -50,6 +51,8 @@ public class CartFragment extends Fragment {
 
     int pageId = 0;
     int action = I.ACTION_DOWNLOAD;
+
+    int sumPrice=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +70,18 @@ public class CartFragment extends Fragment {
         setPullDownRefreshListener();
         setUpdateCartListener();
         setPullUpRefreshListener();
+        setBuyListener();
+    }
+
+    private void setBuyListener() {
+        tvBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (DemoHXSDKHelper.getInstance().isLogined()&& sumPrice>0){
+                    startActivity(new Intent(mContext,BuyActivity.class));
+                }
+            }
+        });
     }
 
     private void setPullUpRefreshListener() {
@@ -188,7 +203,6 @@ public class CartFragment extends Fragment {
     private void sumPrice(){
         Log.e(TAG,"mCartList = "+mCartList.size());
         if(mCartList!=null && mCartList.size()>0){
-            int sumPrice=0;
             int rankPrice = 0;
             for (CartBean cart : mCartList){
                 GoodDetailsBean good = cart.getGoods();
