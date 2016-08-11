@@ -203,6 +203,7 @@ public class CartFragment extends Fragment {
     private void sumPrice(){
         Log.e(TAG,"mCartList = "+mCartList.size());
         if(mCartList!=null && mCartList.size()>0){
+            sumPrice=0;
             int rankPrice = 0;
             for (CartBean cart : mCartList){
                 GoodDetailsBean good = cart.getGoods();

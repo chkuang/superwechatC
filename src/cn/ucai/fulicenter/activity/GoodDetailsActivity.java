@@ -226,6 +226,7 @@ public class GoodDetailsActivity extends Activity {
                 cart.setGoods(mGoodDetail);
                 cart.setUserName(cartBean.getUserName());
                 isExits = true;
+                Log.e(TAG,"cart.count ="+cart.getCount());
             }
         }
         if(!isExits){
